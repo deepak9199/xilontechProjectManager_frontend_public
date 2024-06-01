@@ -1,0 +1,196 @@
+<div class="wrapper">
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Cost Center</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a (click)='home()'>Home</a></li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card-Border">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-tools">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group input-group-sm">
+                      <button data-toggle="modal" data-target="#modal-CostCenter" type="button"
+                        class="btn btn-primary btn-block"><i class="fas fa-plus" style="margin-right: 1em;"></i>Create
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header table-->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped projects">
+                  <thead>
+                    <tr>
+                      <th style="width: 5%" class="text-center">
+                        Sl no.
+                      </th>
+                      <th style="width: 16.5%" class="text-center">
+                        Project
+                      </th>
+                      <th style="width: 16.5%">
+                        Activity
+                      </th>
+                      <th style="width: 16.5%">
+                        Employee
+                      </th>
+                      <th style="width: 16.5%">
+                        Employee Charge
+                      </th>
+                      <th style="width: 16.5%">
+                        Employee Type
+                      </th>
+                      <th style="width: 16.5%">
+                        Out Sourcing Type
+                      </th>
+                      <th style="width: 16.5%">
+                        Out Sourcing Charge
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let obj of CostCenterList">
+                      <td></td>
+                      <td>{{getProjectName(obj.projectcode)}}</td>
+                      <td>{{getActivityName(obj.activitycode)}}</td>
+                      <td>{{getEmployeeName(obj.userid)}}</td>
+                      <td>{{obj.chargetype}}</td>
+                      <td>{{obj.chargerate}}/-</td>
+                      <td>{{obj.outsourcingtype}}</td>
+                      <td>{{obj.outsourcingrate}}/-</td>
+
+                      <td class="text-right py-0 align-middle">
+                        <div>
+                          <div class="btn-group btn-group-sm">
+                            <a class="btn btn-danger" style="color: white;" (click)=Delete(obj)><i
+                                class="fas fa-trash"></i></a>
+                          </div>
+                        </div>
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<!-- model -->
+<div class="modal fade" id="modal-CostCenter">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Create Bill</h3>
+          <button id="cancel" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form name="form" #myNgForm="ngForm" (ngSubmit)="createCostCenter();myNgForm.resetForm()">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="projectCode">Select Project</label>
+              <select class="form-control" id="projectCode" name="projectCode" placeholder="Enter The projectCode"
+                [(ngModel)]="form.projectCode" required #projectCode="ngModel" (change)=getactivitiesByProject()>
+                <option value=''>
+                  Select Project
+                </option>
+                <option *ngFor="let project of ProjectList" value={{project.projectCode}}>
+                  {{project.projectname}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="activitiesCode">Select Activity</label>
+              <select class="form-control" id="activitiesCode" name="activitiesCode"
+                placeholder="Enter The activitiesname" [(ngModel)]="form.activitiesCode" required
+                #activitiesCode="ngModel" (change)=getEmployeeListByProjectAcvtivity()>
+                <option value=''>
+                  Select Activity
+                </option>
+                <option *ngFor="let Activity of ActivitiesByproject" value={{Activity.activitiesCode}}>
+                  {{Activity.activitiesname}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="user">Select Employee</label>
+              <select class="form-control" id="user" name="user" placeholder="Enter The user" [(ngModel)]="form.user"
+                required #user="ngModel" (change)=getEmployeeBillTypeCharge()>
+                <option value=''>
+                  Select Employee
+                </option>
+                <option *ngFor="let obj of EmployeeList" value={{obj.user}}>
+                  {{obj.user}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="chargetype">Select Employee chargetype</label>
+              <select class="form-control" id="chargetype" name="chargetype" placeholder="Enter The chargetype"
+                [(ngModel)]="form.chargetype" required #chargetype="ngModel" (change)="getChargeRate()">
+                <option value=''>
+                  Select Employee chargetype
+                </option>
+                <option *ngFor="let obj of EmployeebillTypeChargeList" value={{obj.chargetype}}>
+                  {{obj.chargetype}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="chargerate">Charge Rate</label>
+              <input type="text" class="form-control" id="chargerate" name="chargerate"
+                placeholder="Enter The Chargerate" [(ngModel)]="form.chargerate" required #chargerate="ngModel">
+            </div>
+            <div class="form-group">
+              <label for="outsourcingtype">Out Sourcing Type</label>
+              <select class="form-control" id="outsourcingtype" name="outsourcingtype"
+                placeholder="Enter The outsourcingtype" [(ngModel)]="form.outsourcingtype" required
+                #outsourcingtype="ngModel">
+                <option value=''>
+                  Select Employee chargetype
+                </option>
+                <option value='Hour'>
+                  Hour
+                </option>
+                <option value='Day'>
+                  Day
+                </option>
+                <option value='Month'>
+                  Month
+                </option>
+                <option value='Year'>
+                  Year
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="outsourcingrate">Out Sourcing Type Rate</label>
+              <input type="text" class="form-control" id="outsourcingrate" name="outsourcingrate"
+                placeholder="Enter The outsourcingrate" [(ngModel)]="form.outsourcingrate" required
+                #outsourcingrate="ngModel">
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

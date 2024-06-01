@@ -1,0 +1,149 @@
+<div class="wrapper">
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Resourse</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a (click)='home()'>Home</a></li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card-Border">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <div class="form-group">
+                    <div class="btn-group w-100">
+                      <label style="width: 130%;">List of Resource</label>
+                      <!-- <select (change)='Search()' [(ngModel)]=SelectUser class="form-control "
+                              style="width: 100%;">
+                              <option selected="selected" value="All">All</option>
+                              <option *ngFor='let obj of emplist' value={{obj.user}}>{{obj.user}}
+                              </option>
+                          </select> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="card-tools">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group input-group-sm">
+                      <!-- <button data-toggle="modal" data-target="#modal-CostCenter" type="button"
+                        class="btn btn-primary btn-block"><i class="fas fa-plus" style="margin-right: 1em;"></i>Create
+                      </button> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header table-->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped projects">
+                  <thead>
+                    <tr>
+                      <th style="width: 5%" class="text-center">Sl.No</th>
+                      <th style="width: 16.5%" class="text-center">
+                        Employee
+                      </th>
+                      <th style="width: 16.5%" class="text-center">
+                        Employee Type
+                      </th>
+                      <th style="width: 25%" class="text-center">
+                        Employee Reports TO
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let obj of useraccountList">
+                      <td class="text-center"></td>
+                      <td class="text-center">{{obj.user}}</td>
+                      <td class="text-center">{{obj.employeetype}}</td>
+                      <td class="text-center">{{obj.reportsTo}}</td>
+                      <td class="text-right py-0 align-middle">
+                        <div>
+                          <div class="btn-group btn-group-sm">
+                            <a class="btn btn-info" style="color: white;" data-toggle="modal"
+                              data-target="#modal-editaccount" (click)=update(obj)><i class="fas fa-pencil-alt"></i></a>
+                          </div>
+                        </div>
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+</div>
+<!-- model -->
+<div class="modal fade" id="modal-editaccount">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- <div class="modal-header"> -->
+      <!-- <div class="modal-body"> -->
+      <!-- general form elements -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Edit Resource</h3>
+          <button id="cancelUpdate" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form name="form" #myNgFormNew="ngForm" (ngSubmit)="submitEdit();myNgFormNew.resetForm()">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="employeetype">Select Employee type</label>
+              <select class="form-control" id="employeetype" name="employeetype" placeholder="Enter The employeetype"
+                [(ngModel)]="form.employeetype" required #employeetype="ngModel">
+                <option value=''>
+                  Select type
+                </option>
+                <option value='Regular'>
+                  Regular
+                </option>
+                <option value='Contract'>
+                  Contract
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="ReportsTo">Employee Reports To</label>
+              <select class="form-control" id="ReportsTo" name="ReportsTo" placeholder="Enter The ReportsTo"
+                [(ngModel)]="form.ReportsTo" required #ReportsTo="ngModel">
+                <option value=''>
+                  Select type
+                </option>
+                <option *ngFor="let obj of userReportsTo" value={{obj.user}}>
+                  {{obj.user}}</option>
+              </select>
+            </div>
+          </div>
+          <!-- /.card-body -->
+
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary" data-target="#modal-createcustomer"
+              data-toggle="modal">Update</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.card -->
+
+      <!-- </div> -->
+      <!-- </div> -->
+    </div>
+  </div>
+</div>

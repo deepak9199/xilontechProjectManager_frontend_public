@@ -1,0 +1,119 @@
+<div class="wrapper">
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Employee Billing</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a (click)='home()'>Home</a></li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card-Border">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-tools">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group input-group-sm">
+                      <button data-toggle="modal" data-target="#modal-EmployeeChargeCreate" type="button"
+                        class="btn btn-primary btn-block"><i class="fas fa-plus" style="margin-right: 1em;"></i>Create
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header table-->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped projects">
+                  <thead>
+                    <tr>
+                      <th style="width: 8%">Sl no.</th>
+                      <th style="width: 8%" class="text-center">
+                        Employee
+                      </th>
+                      <th style="width: 15%">
+                        Billing type
+                      </th>
+                      <th style="width: 10%">
+                        Billing Rate
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let obj of EmployeeBillingList">
+                      <td></td>
+                      <td>{{getEmployeeName(obj.userid)}}</td>
+                      <td>{{obj.chargetype}}</td>
+                      <td>{{obj.chargerate}}/-</td>
+                      <td class="text-right py-0 align-middle">
+                        <div>
+                          <div class="btn-group btn-group-sm">
+                            <a class="btn btn-danger" style="color: white;" (click)=Delete(obj)><i
+                                class="fas fa-trash"></i></a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- model -->
+<div class="modal fade" id="modal-EmployeeChargeCreate">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Create Employee Bill</h3>
+          <button id="cancel" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form name="form" #myNgForm="ngForm" (ngSubmit)="createEmployeeCharge();myNgForm.resetForm()">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="projectCode">Select Employee</label>
+              <select class="form-control" id="Employee" name="Employee" placeholder="Select The Employee"
+                [(ngModel)]="selectedEmployee" required #permission="ngModel">
+                <option value=none>select Employee
+                </option>
+                <option *ngFor="let obj of EmployeeList" value={{obj.id}}>
+                  {{obj.user}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="ChargeType">Charge Type</label>
+              <input type="text" class="form-control" id="ChargeType" name="ChargeType"
+                placeholder="Enter The ChargeType" [(ngModel)]="form.ChargeType" required #ChargeType="ngModel">
+            </div>
+            <div class="form-group">
+              <label for="ChargeRate">Charge Rate</label>
+              <input type="text" class="form-control" id="ChargeRate" name="ChargeRate"
+                placeholder="Enter The ChargeRate" [(ngModel)]="form.ChargeRate" required #ChargeRate="ngModel">
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
